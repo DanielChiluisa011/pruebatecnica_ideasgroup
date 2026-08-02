@@ -2,7 +2,7 @@ using Api.Domain.Entities;
 
 namespace Api.Domain.Ports.In;
 
-public interface IProyecto
+public interface IProyectoUseCase
 {
     Task<bool> CrearProyecto(Proyecto proyecto);
     Task<bool> EliminarProyecto(int secuencial);

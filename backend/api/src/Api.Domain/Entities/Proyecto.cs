@@ -8,4 +8,14 @@ public class Proyecto
     public DateTime FechaFin { get; set; }
     public string CodigoEstadoProyecto { get; set; } = string.Empty;
     public EstadoProyecto EstadoProyecto { get; set; } = null!;
+    
+    public Proyecto(int secuencial, string nombre, string descripcion, DateTime FechaCreacion, DateTime FechaFin, string CodigoEstadoProyecto)
+    {
+        Secuencial = secuencial;
+        Nombre = nombre;
+        Descripcion = descripcion;
+        this.FechaCreacion = FechaCreacion;
+        this.FechaFin = FechaFin;
+        this.CodigoEstadoProyecto = CodigoEstadoProyecto;
+    }
 }
