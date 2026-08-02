@@ -8,11 +8,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Api.Infrastructure.Security;
 
-public class JwtokenGenerator : ITokenGnerator
+public class JwtTokenGenerator : ITokenGenerator
 {
     private readonly IConfiguration _configuration;
 
-    public JwtokenGenerator(IConfiguration configuration)
+    public JwtTokenGenerator(IConfiguration configuration)
     {
         _configuration = configuration;
     }

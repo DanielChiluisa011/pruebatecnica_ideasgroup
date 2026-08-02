@@ -6,7 +6,6 @@ namespace Api.Domain.Entities
         public string Nombre { get; set; }
         public string Correo { get; set; }
         public string Password { get; set; }
-        public Usuario(){}
         public Usuario(int secuencial, string nombre, string correo, string password)
         {
             Secuencial = secuencial;
