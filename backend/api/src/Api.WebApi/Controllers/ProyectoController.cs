@@ -24,7 +24,7 @@ public class ProyectoController : ControllerBase
     {
         try
         {
-            var proyecto = new Proyecto(0, request.Nombre, request.Descripcion, request.FechaInicio, request.FechaFin, "N");
+            var proyecto = new Proyecto(0, request.Nombre, request.Descripcion, request.FechaInicio, request.FechaFin, "N", new List<Proyecto_Usuario>());
 
             var result = await _proyectoUseCase.CrearProyecto(proyecto);
             if (result)
@@ -85,6 +85,28 @@ public class ProyectoController : ControllerBase
             if (result)
             {
                 return Ok(new { message = "Proyecto eliminado exitosamente." });
+            }
+            else
+            {
+                return NotFound(new { message = "No se encontró el proyecto." });
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
+    }
+
+    [HttpPut("actualizar")]
+    public async Task<IActionResult> ActualizarProyecto([FromBody] UpdateProyectoRequest request)
+    {
+        try
+        {
+            var proyecto = new Proyecto(request.Secuencial, request.Nombre, request.Descripcion, request.FechaInicio, request.FechaFin, request.CodigoEstadoProyecto, request.ProyectoUsuario);
+            var updatedProyecto = await _proyectoUseCase.ActualizarProyecto(proyecto);
+            if (updatedProyecto != null)
+            {
+                return Ok(updatedProyecto);
             }
             else
             {

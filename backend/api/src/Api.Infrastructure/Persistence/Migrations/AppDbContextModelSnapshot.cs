@@ -138,6 +138,35 @@ namespace Api.Infrastructure.Persistence.Migrations
                     b.ToTable("Proyectos", (string)null);
                 });
 
+            modelBuilder.Entity("Api.Infrastructure.Persistence.Entities.Proyecto_UsuarioDb", b =>
+                {
+                    b.Property<int>("Secuencial")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Secuencial"));
+
+                    b.Property<bool>("EstaActivo")
+                        .HasColumnType("boolean")
+                        .HasColumnName("EstaActivo");
+
+                    b.Property<int>("SecuencialProyecto")
+                        .HasColumnType("integer")
+                        .HasColumnName("SecuencialProyecto");
+
+                    b.Property<int>("SecuencialUsuario")
+                        .HasColumnType("integer")
+                        .HasColumnName("SecuencialUsuario");
+
+                    b.HasKey("Secuencial");
+
+                    b.HasIndex("SecuencialProyecto");
+
+                    b.HasIndex("SecuencialUsuario");
+
+                    b.ToTable("Proyecto_Usuario", (string)null);
+                });
+
             modelBuilder.Entity("Api.Infrastructure.Persistence.Entities.TareaDb", b =>
                 {
                     b.Property<int>("Secuencial")
@@ -238,6 +267,25 @@ namespace Api.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("EstadoProyecto");
+                });
+
+            modelBuilder.Entity("Api.Infrastructure.Persistence.Entities.Proyecto_UsuarioDb", b =>
+                {
+                    b.HasOne("Api.Infrastructure.Persistence.Entities.ProyectoDb", "Proyecto")
+                        .WithMany()
+                        .HasForeignKey("SecuencialProyecto")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Api.Infrastructure.Persistence.Entities.UsuarioDb", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("SecuencialUsuario")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Proyecto");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Api.Infrastructure.Persistence.Entities.TareaDb", b =>

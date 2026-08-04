@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<ColumnaDb> Columnas => Set<ColumnaDb>();
     public DbSet<PrioridadDb> Prioridades => Set<PrioridadDb>();
     public DbSet<TareaDb> Tareas => Set<TareaDb>();
+    public DbSet<Proyecto_UsuarioDb> Proyecto_Usuario => Set<Proyecto_UsuarioDb>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -103,6 +104,25 @@ public class AppDbContext : DbContext
             entity.HasOne(e => e.UsuarioAsignado)
                 .WithMany()
                 .HasForeignKey(e => e.SecuencialUsuarioAsignado)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Proyecto_UsuarioDb>(entity =>
+        {
+            entity.ToTable("Proyecto_Usuario");
+            entity.HasKey(e => e.Secuencial);
+            entity.Property(e => e.SecuencialProyecto).HasColumnName("SecuencialProyecto").IsRequired();
+            entity.Property(e => e.SecuencialUsuario).HasColumnName("SecuencialUsuario").IsRequired();
+            entity.Property(e => e.EstaActivo).HasColumnName("EstaActivo").IsRequired();
+
+            entity.HasOne(e => e.Proyecto)
+                .WithMany()
+                .HasForeignKey(e => e.SecuencialProyecto)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.SecuencialUsuario)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

@@ -11,9 +11,20 @@ public class ProyectoRepository(AppDbContext context) : IProyectoRepository
 {
     private readonly AppDbContext _context = context;
 
-    public Task<Proyecto> ActualizarProyecto(Proyecto proyecto)
+    public async Task<Proyecto> ActualizarProyecto(Proyecto proyecto)
     {
-        throw new NotImplementedException();
+        var proyectoDb = await _context.Proyectos.FirstOrDefaultAsync(p => p.Secuencial == proyecto.Secuencial);
+        if (proyectoDb == null)
+        {
+            throw new AppException("No existe el proyecto buscado.", 404);
+        }
+        proyectoDb.Nombre = proyecto.Nombre;
+        proyectoDb.Descripcion = proyecto.Descripcion;
+        proyectoDb.FechaInicio = DateTime.SpecifyKind(proyecto.FechaCreacion, DateTimeKind.Utc);
+        proyectoDb.FechaFin = DateTime.SpecifyKind(proyecto.FechaFin, DateTimeKind.Utc);
+        proyectoDb.CodigoEstadoProyecto = proyecto.CodigoEstadoProyecto;
+        await _context.SaveChangesAsync();
+        return proyecto;
     }
 
     public Task<bool> CrearProyecto(Proyecto proyecto)
@@ -51,7 +62,17 @@ public class ProyectoRepository(AppDbContext context) : IProyectoRepository
         {
             throw new AppException("No existe el proyecto buscado.", 404);
         }
-        return new Proyecto(proyectoDb.Secuencial, proyectoDb.Nombre, proyectoDb.Descripcion,proyectoDb.FechaInicio, proyectoDb.FechaFin, proyectoDb.CodigoEstadoProyecto);
+        List<Proyecto_Usuario> proyectoUsuarios = await _context.Proyecto_Usuario
+            .Where(pu => pu.SecuencialProyecto == secuencial && pu.EstaActivo)
+            .Select(pu => new Proyecto_Usuario
+            {
+                Secuencial = pu.Secuencial,
+                SecuencialProyecto = pu.SecuencialProyecto,
+                SecuencialUsuario = pu.SecuencialUsuario,
+                EstaActivo = pu.EstaActivo
+            })
+            .ToListAsync();
+        return new Proyecto(proyectoDb.Secuencial, proyectoDb.Nombre, proyectoDb.Descripcion,proyectoDb.FechaInicio, proyectoDb.FechaFin, proyectoDb.CodigoEstadoProyecto, proyectoUsuarios);
     }
 
     public Task<List<Proyecto>> ObtenerProyectosPorEstado(string estadoCodigo)
@@ -60,7 +81,17 @@ public class ProyectoRepository(AppDbContext context) : IProyectoRepository
         var proyectosDb = _context.Proyectos.Where(p => p.CodigoEstadoProyecto == estadoCodigo).ToList();
         foreach (var proyectoDb in proyectosDb)
         {
-            proyectos.Add(new Proyecto(proyectoDb.Secuencial, proyectoDb.Nombre, proyectoDb.Descripcion, proyectoDb.FechaInicio, proyectoDb.FechaFin, proyectoDb.CodigoEstadoProyecto));
+            List<Proyecto_Usuario> proyectoUsuarios = _context.Proyecto_Usuario
+                .Where(pu => pu.SecuencialProyecto == proyectoDb.Secuencial && pu.EstaActivo)
+                .Select(pu => new Proyecto_Usuario
+                {
+                    Secuencial = pu.Secuencial,
+                    SecuencialProyecto = pu.SecuencialProyecto,
+                    SecuencialUsuario = pu.SecuencialUsuario,
+                    EstaActivo = pu.EstaActivo
+                })
+                .ToList();
+            proyectos.Add(new Proyecto(proyectoDb.Secuencial, proyectoDb.Nombre, proyectoDb.Descripcion, proyectoDb.FechaInicio, proyectoDb.FechaFin, proyectoDb.CodigoEstadoProyecto, proyectoUsuarios));
         }
         return Task.FromResult(proyectos);
     }

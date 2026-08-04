@@ -101,6 +101,33 @@ namespace Api.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Proyecto_Usuario",
+                columns: table => new
+                {
+                    Secuencial = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SecuencialProyecto = table.Column<int>(type: "integer", nullable: false),
+                    SecuencialUsuario = table.Column<int>(type: "integer", nullable: false),
+                    EstaActivo = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Proyecto_Usuario", x => x.Secuencial);
+                    table.ForeignKey(
+                        name: "FK_Proyecto_Usuario_Proyectos_SecuencialProyecto",
+                        column: x => x.SecuencialProyecto,
+                        principalTable: "Proyectos",
+                        principalColumn: "Secuencial",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Proyecto_Usuario_Usuarios_SecuencialUsuario",
+                        column: x => x.SecuencialUsuario,
+                        principalTable: "Usuarios",
+                        principalColumn: "Secuencial",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tareas",
                 columns: table => new
                 {
@@ -144,6 +171,16 @@ namespace Api.Infrastructure.Persistence.Migrations
                 column: "SecuencialProyecto");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Proyecto_Usuario_SecuencialProyecto",
+                table: "Proyecto_Usuario",
+                column: "SecuencialProyecto");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Proyecto_Usuario_SecuencialUsuario",
+                table: "Proyecto_Usuario",
+                column: "SecuencialUsuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Proyectos_CodigoEstadoProyecto",
                 table: "Proyectos",
                 column: "CodigoEstadoProyecto");
@@ -167,6 +204,9 @@ namespace Api.Infrastructure.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Proyecto_Usuario");
+
             migrationBuilder.DropTable(
                 name: "Tareas");
 

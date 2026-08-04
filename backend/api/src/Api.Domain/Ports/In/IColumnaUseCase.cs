@@ -2,7 +2,7 @@ using Api.Domain.Entities;
 
 namespace Api.Domain.Ports.In;
 
-public interface IColumna
+public interface IColumnaUseCase
 {
     Task<bool> CrearColumna(Columna Columna);
     Task<bool> EliminarColumna(int secuencial);

@@ -1,3 +1,3 @@
 namespace Api.WebApi.DTOs.Request;
 
-public record CreateProyectoRequest(string Nombre, string Descripcion, DateTime FechaInicio, DateTime FechaFin);
+public record CreateProyectoRequest(int Secuencial, string Nombre, string Descripcion, DateTime FechaInicio, DateTime FechaFin);

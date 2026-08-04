@@ -16,7 +16,8 @@ public class ProyectoUseCase : IProyectoUseCase
 
     public Task<Proyecto> ActualizarProyecto(Proyecto proyecto)
     {
-        throw new NotImplementedException();
+        var proyectoActualizado = _proyectoRepository.ActualizarProyecto(proyecto);
+        return proyectoActualizado;
     }
 
     public async Task<bool> CrearProyecto(Proyecto proyecto)
