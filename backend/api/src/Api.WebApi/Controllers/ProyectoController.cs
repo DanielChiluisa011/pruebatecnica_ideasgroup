@@ -24,7 +24,7 @@ public class ProyectoController : ControllerBase
     {
         try
         {
-            var proyecto = new Proyecto(0, request.Nombre, request.Descripcion, request.FechaInicio, request.FechaFin, "N", new List<Proyecto_Usuario>());
+            var proyecto = new Proyecto(0, request.Nombre, request.Descripcion, request.FechaInicio, request.FechaFin,"A", new List<Proyecto_Usuario>());
 
             var result = await _proyectoUseCase.CrearProyecto(proyecto);
             if (result)

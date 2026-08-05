@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260804022952_EsquemaCompleto")]
+    [Migration("20260805011044_EsquemaCompleto")]
     partial class EsquemaCompleto
     {
         /// <inheritdoc />
@@ -74,6 +74,20 @@ namespace Api.Infrastructure.Persistence.Migrations
                     b.HasKey("Codigo");
 
                     b.ToTable("EstadosProyecto", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Codigo = "A",
+                            EstaActivo = true,
+                            Nombre = "Activo"
+                        },
+                        new
+                        {
+                            Codigo = "I",
+                            EstaActivo = true,
+                            Nombre = "Inactivo"
+                        });
                 });
 
             modelBuilder.Entity("Api.Infrastructure.Persistence.Entities.PrioridadDb", b =>
@@ -248,6 +262,22 @@ namespace Api.Infrastructure.Persistence.Migrations
                     b.HasKey("Secuencial");
 
                     b.ToTable("Usuarios", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Secuencial = 1,
+                            Correo = "cchiluisa@gmail.com",
+                            Nombre = "Daniel Chiluisa",
+                            Password = "$2a$11$Tvgc.6Y4MaiRT3YHhPSm5ewPr.AWS8VBiMqylLRASCdbTMxdWxenS"
+                        },
+                        new
+                        {
+                            Secuencial = 2,
+                            Correo = "cpauta@gmail.com",
+                            Nombre = "Cristina Pauta",
+                            Password = "$2a$11$Tvgc.6Y4MaiRT3YHhPSm5ewPr.AWS8VBiMqylLRASCdbTMxdWxenS"
+                        });
                 });
 
             modelBuilder.Entity("Api.Infrastructure.Persistence.Entities.ColumnaDb", b =>

@@ -126,5 +126,17 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        #region Seed Data
+        modelBuilder.Entity<UsuarioDb>().HasData(
+            new UsuarioDb { Secuencial = 1, Nombre = "Daniel Chiluisa", Correo = "cchiluisa@gmail.com", Password = "$2a$11$Tvgc.6Y4MaiRT3YHhPSm5ewPr.AWS8VBiMqylLRASCdbTMxdWxenS" });
+        modelBuilder.Entity<UsuarioDb>().HasData(
+        new UsuarioDb { Secuencial = 2, Nombre = "Cristina Pauta", Correo = "cpauta@gmail.com", Password = "$2a$11$Tvgc.6Y4MaiRT3YHhPSm5ewPr.AWS8VBiMqylLRASCdbTMxdWxenS" });
+
+        modelBuilder.Entity<EstadoProyectoDb>().HasData(
+            new EstadoProyectoDb { Codigo = "A", Nombre = "Activo", EstaActivo = true });
+        modelBuilder.Entity<EstadoProyectoDb>().HasData(
+            new EstadoProyectoDb { Codigo = "I", Nombre = "Inactivo", EstaActivo = true });
+        #endregion
+
     }
 }
