@@ -43,7 +43,7 @@ public class UsuariosController : ControllerBase
             var token = await _authUseCase.Login(request.Correo, request.Password);
             if (token != null)
             {
-                return Ok(new { token = token });
+                return Ok(token);
             }
             else
             {

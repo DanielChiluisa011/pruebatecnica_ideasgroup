@@ -15,7 +15,7 @@ export class AuthService {
     return this.http.post<UsuarioResponse>(`${environment.apiUrl}/Usuarios/login`, request)
     .pipe(
       tap(response => {
-        localStorage.setItem(this.TOKEN_KEY, response.token);
+        localStorage.setItem("usuario", JSON.stringify(response));
       })
     )
   }
@@ -32,4 +32,9 @@ export class AuthService {
     const token = this.getToken();
     return !!token;
   }
+  obtenerUsuarioLogueado(): UsuarioResponse | null {
+    const data = localStorage.getItem("usuario");
+    return data ? JSON.parse(data) as UsuarioResponse : null;
+  }
+
 }

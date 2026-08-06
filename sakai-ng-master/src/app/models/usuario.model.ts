@@ -17,5 +17,9 @@ export interface UsuarioRegister{
 }
 
 export interface UsuarioResponse {
+    secuencial: number,
+    nombre: string,
+    correo: string,
+    password: string,
     token: string
 } 

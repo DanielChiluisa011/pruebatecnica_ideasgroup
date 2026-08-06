@@ -51,9 +51,9 @@ public class ProyectoUseCase : IProyectoUseCase
         return proyecto;
     }
 
-    public async Task<List<Proyecto>> ObtenerProyectosPorEstado(string estadoCodigo)
+    public async Task<List<Proyecto>> ObtenerProyectosPorUsuario(int secuencialUsuario)
     {
-        List<Proyecto> proyectos = await _proyectoRepository.ObtenerProyectosPorEstado(estadoCodigo);
+        List<Proyecto> proyectos = await _proyectoRepository.ObtenerProyectosPorUsuario(secuencialUsuario);
         return proyectos;
     }
 }

@@ -5,7 +5,7 @@ import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
 import { Login } from './app/appPages/login/login';
-import { Projects } from './app/appPages/projects/projects';
+import { Home } from './app/appPages/home/home';
 
 export const appRoutes: Routes = [
     {
@@ -20,7 +20,7 @@ export const appRoutes: Routes = [
     },
 
     {path: 'login', component: Login},
-    {path: 'projects', component: Projects},
+    {path: 'projects', component: Home},
     { path: 'landing', component: Landing },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },

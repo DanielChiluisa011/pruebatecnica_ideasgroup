@@ -19,15 +19,16 @@ public class AuthUseCase : IAuthUseCase
         _tokenGenerator = tokenGenerator;
     }
 
-    public async Task<string> Login(string email, string password)
+    public async Task<Usuario> Login(string email, string password)
     {
         var usuario = await _usuarioRepository.GetUsuarioByEmail(email);
         if (usuario == null || !_passwordHasher.VerifyPassword(usuario.Password, password))
         {
             throw new AppException("Correo y/o contraseña incorrectos.", (int)HttpStatusCode.Conflict);
         }
-
-        return _tokenGenerator.GenerateToken(usuario);
+        usuario.Token = _tokenGenerator.GenerateToken(usuario);
+        usuario.Password = "";
+        return usuario;
     }
 
     public async Task<bool> Register(string nombre, string email, string password)

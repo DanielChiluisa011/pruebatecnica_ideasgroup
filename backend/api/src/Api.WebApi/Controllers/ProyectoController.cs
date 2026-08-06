@@ -6,7 +6,7 @@ using Api.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Api.WebApi.Controllers;
-[Authorize]
+
 [ApiController]
 [Route("api/[controller]")]
 
@@ -63,13 +63,13 @@ public class ProyectoController : ControllerBase
         }
     }
 
-    [HttpGet("estado/{estadoCodigo}")]
-    public async Task<IActionResult> ObtenerProyectosPorEstado(string estadoCodigo)
+    [HttpGet("usuario/{secuencialUsuario}")]
+    public async Task<IActionResult> ObtenerProyectosPorUsuario(int secuencialUsuario)
     {
         try
         {
-            var proyectos = await _proyectoUseCase.ObtenerProyectosPorEstado(estadoCodigo);
-            return Ok(proyectos);
+            var proyectos = await _proyectoUseCase.ObtenerProyectosPorUsuario(secuencialUsuario);
+            return Ok(new {proyectos = proyectos});
         }
         catch (InvalidOperationException ex)
         {

@@ -14,7 +14,7 @@ import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-login',
-  imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator,Dialog],
+  imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   providers: [DialogService]

@@ -7,6 +7,6 @@ public interface IProyectoUseCase
     Task<bool> CrearProyecto(Proyecto proyecto);
     Task<bool> EliminarProyecto(int secuencial);
     Task<Proyecto> ObtenerProyectoPorSecuencial(int secuencial);
-    Task<List<Proyecto>> ObtenerProyectosPorEstado(string estadoCodigo);
+    Task<List<Proyecto>> ObtenerProyectosPorUsuario(int secuencialUsuario);
     Task<Proyecto> ActualizarProyecto(Proyecto proyecto);
 }

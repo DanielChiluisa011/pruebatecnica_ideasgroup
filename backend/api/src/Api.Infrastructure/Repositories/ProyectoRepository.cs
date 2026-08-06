@@ -75,24 +75,20 @@ public class ProyectoRepository(AppDbContext context) : IProyectoRepository
         return new Proyecto(proyectoDb.Secuencial, proyectoDb.Nombre, proyectoDb.Descripcion,proyectoDb.FechaInicio, proyectoDb.FechaFin, proyectoDb.CodigoEstadoProyecto, proyectoUsuarios);
     }
 
-    public Task<List<Proyecto>> ObtenerProyectosPorEstado(string estadoCodigo)
+    public Task<List<Proyecto>> ObtenerProyectosPorUsuario(int secuencialUsuario)
     {
         List<Proyecto> proyectos = new List<Proyecto>();
-        var proyectosDb = _context.Proyectos.Where(p => p.CodigoEstadoProyecto == estadoCodigo).ToList();
-        foreach (var proyectoDb in proyectosDb)
+        var proyecto_UsuarioDb = _context.Proyecto_Usuario.Where(p => p.SecuencialUsuario == secuencialUsuario);
+        proyecto_UsuarioDb.ForEachAsync(p =>
         {
-            List<Proyecto_Usuario> proyectoUsuarios = _context.Proyecto_Usuario
-                .Where(pu => pu.SecuencialProyecto == proyectoDb.Secuencial && pu.EstaActivo)
-                .Select(pu => new Proyecto_Usuario
-                {
-                    Secuencial = pu.Secuencial,
-                    SecuencialProyecto = pu.SecuencialProyecto,
-                    SecuencialUsuario = pu.SecuencialUsuario,
-                    EstaActivo = pu.EstaActivo
-                })
-                .ToList();
-            proyectos.Add(new Proyecto(proyectoDb.Secuencial, proyectoDb.Nombre, proyectoDb.Descripcion, proyectoDb.FechaInicio, proyectoDb.FechaFin, proyectoDb.CodigoEstadoProyecto, proyectoUsuarios));
-        }
+            var proyectosDb = _context.Proyectos.Where(q => q.Secuencial == p.SecuencialProyecto && q.CodigoEstadoProyecto != "I").ToList();    
+            
+            proyectosDb.ForEach(i =>
+            {
+                proyectos.Add(new Proyecto(i.Secuencial,i.Nombre, i.Descripcion,i.FechaInicio,i.FechaFin,i.CodigoEstadoProyecto,new List<Proyecto_Usuario>()));
+            });
+        });
+        
         return Task.FromResult(proyectos);
     }
 }
